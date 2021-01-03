@@ -22,12 +22,12 @@ class Shiro_lib
     public function admin($content, $data = null)
     {
         $datas = array(
-            'header'  		=> $this->ci->load->view('admin/template/header', $data, true),
-            'sidebar' 		=> $this->ci->load->view('admin/template/sidebar', $data, true),
-            'footer'		=> $this->ci->load->view('admin/template/footer', $data, true),
-            'breadcrumb'	=> $this->ci->load->view('admin/template/breadcrumb', $data, true),
-            'content' 		=> $this->ci->load->view('admin/template/' . $content, $data, true),
+            'header'  		=> $this->ci->load->view('template/header', $data, true),
+            'sidebar' 		=> $this->ci->load->view('template/sidebar', $data, true),
+            'footer'		=> $this->ci->load->view('template/footer', $data, true),
+            'breadcrumb'	=> $this->ci->load->view('template/breadcrumb', $data, true),
+            'content' 		=> $this->ci->load->view('admin/' . $content, $data, true),
         );
-        return $this->ci->load->view('admin/template/page', $datas);
+        return $this->ci->load->view('template/page', $datas);
     }
 }
