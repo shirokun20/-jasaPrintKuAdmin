@@ -30,4 +30,11 @@ class Shiro_lib
         );
         return $this->ci->load->view('template/page', $datas);
     }
+
+    public function cekLogin() 
+    {
+        if (empty($this->ci->session->admin)) {
+            redirect(site_url());
+        }
+    }
 }

@@ -57,7 +57,7 @@
                         </a>
                     </li>
                     <li class="">
-                        <a href="<?=site_url('admin/master/pengguna/1')?>" class="waves-effect waves-dark">
+                        <a href="<?=site_url('admin/master/pengguna/2')?>" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                             <span class="pcoded-mtext">Konsumen</span>
                             <span class="pcoded-mcaret"></span>
