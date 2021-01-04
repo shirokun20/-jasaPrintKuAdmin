@@ -23,17 +23,17 @@
                 <li class="user-profile header-notification">
                     <a href="javasript:void(0)" class="waves-effect waves-light">
                         <img src="<?=base_url()?>assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                        <span>John Doe</span>
+                        <span><?= $this->session->admin->user_nama; ?></span>
                         <i class="ti-angle-down"></i>
                     </a>
                     <ul class="show-notification profile-notification">
-                        <li class="waves-effect waves-light">
+<!--                         <li class="waves-effect waves-light">
                             <a href="javasript:void(0)">
                                 <i class="ti-settings"></i> Settings
                             </a>
-                        </li>
+                        </li> -->
                         <li class="waves-effect waves-light">
-                            <a href="auth-normal-sign-in.html">
+                            <a href="<?=site_url('logout')?>">
                                 <i class="ti-layout-sidebar-left"></i> Logout
                             </a>
                         </li>

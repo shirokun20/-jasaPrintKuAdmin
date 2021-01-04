@@ -12,6 +12,21 @@ class Dashboard extends CI_Controller {
 	{
 		$this->shiro_lib->admin('vDashboard', [
 			'title' => 'Dashboard',
+			'subtitle' => 'Halaman utama aplikasi Jasa Print Ku',
+			'breadcrumb' => [
+				[
+					'href' => true,
+					'icon' => 'fa-home',
+					'tujuan' => site_url('admin/dashboard'),
+					'title' => ''
+				],
+				[
+					'href' => false,
+					'icon' => '',
+					'tujuan' => '',
+					'title' => 'Dashbord'
+				]
+			]
 		]);
 	}
 }

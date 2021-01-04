@@ -11,7 +11,7 @@
  Target Server Version : 100414
  File Encoding         : 65001
 
- Date: 22/12/2020 15:18:30
+ Date: 04/01/2021 11:44:40
 */
 
 SET NAMES utf8mb4;
@@ -148,6 +148,12 @@ CREATE TABLE `tb_status_user`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of tb_status_user
+-- ----------------------------
+INSERT INTO `tb_status_user` VALUES (1, 'Aktif', 'Akun Aktif');
+INSERT INTO `tb_status_user` VALUES (2, 'Suspend', 'Akun di suspend');
+
+-- ----------------------------
 -- Table structure for tb_transaction
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_transaction`;
@@ -178,6 +184,12 @@ CREATE TABLE `tb_type_user`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of tb_type_user
+-- ----------------------------
+INSERT INTO `tb_type_user` VALUES (1, 'Super Admin');
+INSERT INTO `tb_type_user` VALUES (2, 'Konsumen');
+
+-- ----------------------------
 -- Table structure for tb_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
@@ -191,7 +203,12 @@ CREATE TABLE `tb_user`  (
   `user_photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `status_user_id` int(100) NULL DEFAULT 1,
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_user
+-- ----------------------------
+INSERT INTO `tb_user` VALUES (1, 'Admin Shiro', 'admin@jasaprintku.com', '089661352511', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, NULL, 1);
 
 -- ----------------------------
 -- Table structure for tb_version
