@@ -63,20 +63,119 @@ class Pengguna extends CI_Controller {
 	public function getPengguna()
 	{
 		$input['user_id'] = $this->input->get('user_id');
-		$q = $this->sb->mengambil('tb_user', $input);
 		$ada = false;
 		$output = '';
-		if ($q->num_rows() > 0) {
-			$ada = true;
-			$output = $q->row();
-			$output->user_password = '';
-		}
+		if ($input['user_id'] !== '') {
+			$q = $this->sb->mengambil('tb_user', $input);
+			if ($q->num_rows() > 0) {
+				$ada = true;
+				$output = $q->row();
+				$output->user_password = '';
+			}
+		} 
+
 		echo json_encode([
 			'jasaprint' => [
 				'status' => $ada ? 'success' : 'error',
 				'data' => $output,
 			]
 		]);
+	}
+
+	public function simpan()
+	{
+		$error = true;
+		$message = '';
+		if (!empty($this->input->post('simpan'))) {
+			if (!empty($this->input->post('type_input'))) {
+				$response = $this->_simpan();
+				$error = $response['error'];				
+				$message = $response['message'];				
+			} else {
+				$message = 'aksi tidak terdeteksi!';
+			}
+		} else {
+			$message = 'harap periksa kembali inputan yang anda kirim';
+		}
+
+		echo json_encode([
+			'jasaprint' => [
+				'status' => $error ? 'error' : 'success',
+				'message' => $message,
+			]
+		]);
+	}
+
+	private function _simpan()
+	{
+		// 
+		$input = $this->input->post();
+		$data = [
+			'user_nama' => $input['user_nama'],
+			'user_email' => $input['user_email'],
+			'user_phone' => $input['user_phone'],
+		];
+		// 
+		$error = true;
+		$message = '';
+		// 
+		if ($input['type_input'] == 'tambah') {
+			$data['status_user_id'] = 1;
+		}
+
+		if (strlen($input['user_password']) > 0) {
+			$data['user_password'] = sha256Encode($input['user_password']);
+		}
+
+		if ($input['type_user_id'] !== '') {
+			$data['type_user_id'] = $input['type_user_id'];
+		}
+
+		if ($input['user_id'] !== '' && $input['type_input'] == 'edit') {
+			$cek = $this->sb->mengambil('tb_user', [
+				'user_id !=' => $input['user_id'],
+				'user_email' => $data['user_email'],
+			]);
+
+			if ($cek->num_rows() > 0) {
+				$message = 'email sudah digunakan!';
+			} else {
+				$response = $this->sb->mengubah('tb_user', [
+					'user_id' => $input['user_id'],
+				], $data);
+
+				if ($response['status'] == 'success') {
+					$error = false;
+					$message = 'mengubah data pengguna';
+				} else {
+					$message = 'mengubah data pengguna';
+				}
+			}
+		} else if ($input['type_input'] == 'tambah') {
+			$cek = $this->sb->mengambil('tb_user', [
+				'user_email' => $data['user_email'],
+			]);
+
+			if ($cek->num_rows() > 0) {
+				$message = 'email sudah digunakan!';
+			} else {
+				$response = $this->sb->menambah('tb_user', $data);
+
+				if ($response['status'] == 'success') {
+					$error = false;
+					$message = 'menambah data pengguna';
+				} else {
+					$message = 'menambah data pengguna';
+				}
+			}
+		} else {
+			
+		}
+
+		return [
+			'error' => $error,
+			'message' => $message,
+		];
 	}
 }
 

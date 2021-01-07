@@ -15,9 +15,9 @@ class Semua_bisa_model extends CI_Model {
     {
         $this->db->where($dimana);
         if ($this->db->update($tabel, $data)) {
-            return array('status' => 'berhasil');
+            return array('status' => 'success');
         } else {
-            return array('status' => 'gagal');
+            return array('status' => 'error');
         }
     }
 	// Untuk menambah data
@@ -25,11 +25,11 @@ class Semua_bisa_model extends CI_Model {
     {
         if ($this->db->insert($tabel, $data)) {
             return array(
-                'status' => 'berhasil',
+                'status' => 'success',
                 'nilai'  => $this->db->insert_id()
             );
         } else {
-            return array('status' => 'gagal');
+            return array('status' => 'error');
         }
     }
 	// digunakan ketika bukan berupa user
@@ -37,9 +37,9 @@ class Semua_bisa_model extends CI_Model {
     {
         $this->db->where($dimana);
         if ($this->db->delete($tabel)) {
-            return array('status' => 'berhasil');
+            return array('status' => 'success');
         } else {
-            return array('status' => 'gagal');
+            return array('status' => 'error');
         }
     }
 }

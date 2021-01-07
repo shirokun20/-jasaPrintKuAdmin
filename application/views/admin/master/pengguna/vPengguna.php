@@ -39,9 +39,6 @@
                     <li>
                     	<i class="fa fa fa-wrench open-card-option"></i>
                     </li>
-                    <!-- <li>
-                    	<i class="fa fa-window-maximize full-card"></i>
-                    </li> -->
                     <li>
                     	<a href="javascript:void(0)" onclick="modalTambah()">
                     		<i class="fa fa-plus" data-toggle="tooltip" title="Tambah Pengguna"></i>
@@ -77,12 +74,15 @@
     <div class="modalSet"></div>
 </div>
 <!--  -->
-<!--  -->
 <link rel="stylesheet" href="<?=base_url('assets/js/datatables/css/dataTables.bootstrap4.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('assets/pages/notification/notification.css')?>">
 <!--  -->
 <script src="<?=base_url('assets/js/datatables/js/jquery.dataTables.min.js')?>"></script>
 <!--  -->
 <script src="<?=base_url('assets/js/datatables/js/dataTables.bootstrap4.min.js')?>"></script>
+<!--  -->
+<!-- notification js -->
+<script type="text/javascript" src="<?=base_url()?>assets/js/bootstrap-growl.min.js"></script>
 <!--  -->
 <script type="text/javascript">
 	// url
@@ -102,18 +102,6 @@
 	// ready function
 	$(() => {
 		datatablesAjax();
-        dataTypeUser.push({
-            type_user_id: '',
-            type_user_nama: 'Pilih Jenis Pengguna',  
-        });
-        dataTypeUser.push({
-            type_user_id: '1',
-            type_user_nama: 'Admin',  
-        });
-        dataTypeUser.push({
-            type_user_id: '2',
-            type_user_nama: 'Konsumen',  
-        });
 	});
 	// functions
 	let datatablesAjax = () => {
@@ -138,93 +126,78 @@
             }],
 		});
 	}
-
+    // 
 	let reloadData = () => {
 		tabel.ajax.reload();
 	}
-
-    let formTambah = () => {
-        output = '<form id="form">';
-        // Input Nama
-        output += '<div class="form-group">';
-            output += '<label>Nama *</label>';
-            output += '<input type="text" name="user_nama" class="form-control" placeholder="Masukan Nama.." required>';
-        output += '</div>';
-        // Email
-        output += '<div class="form-group">';
-            output += '<label>Email *</label>';
-            output += '<input type="text" name="user_email" class="form-control" placeholder="Masukan Email.." required>';
-        output += '</div>';
-        // Phone
-        output += '<div class="form-group">';
-            output += '<label>No.Hp *</label>';
-            output += '<input type="text" name="user_phone" class="form-control" placeholder="Masukan No.Hp.." required>';
-        output += '</div>';
-        // Password
-        output += '<div class="form-group">';
-            output += `<label>Password ${(inputType == 'tambah') ? '*' : ''}</label>`;
-            output += `<input type="password" name="user_password" class="form-control" placeholder="Masukan Password.." ${(inputType == 'tambah') ? 'required' : ''}>`;
-        output += '</div>';
-        // Type User
-        output += '<div class="form-group">';
-            output += '<label>Jenis Pengguna *</label>';
-            output += '<select name="type_user_id" class="custom-select" required>';
-            dataTypeUser.map((e, index) => {
-                output += `<option value="${e.type_user_id}">${e.type_user_nama}</option>`;
-            })
-            output += '</select>';
-        output += '</div>';
-        //  Button
-        output += '<input type="submit" name="simpan" class="btn btn-success pull-right" value="Simpan">';
-        output += '</form>';
-        return output;
-    }
-
+    // 
     let modalTambah = () => {
+        // 
         inputType = 'tambah';
         user_id = '';
+        tagHtml = '';
+        // 
         tagHtml = modalData('Tambah Pengguna', formTambah());
-        modalSet.append(tagHtml);
+        modalSet.html(tagHtml);
+        // 
         $('[name="user_nama"]').val('');
         $('[name="user_email"]').val('');
         $('[name="user_phone"]').val('');
         $('[name="user_password"]').val('');
         $('[name="type_user_id"]').val('');
-        $('#form').on({
+        // 
+        formUse();
+        // 
+        modalVisible();
+    }
+    //
+    let modalVisible = (aksi = 'show') => {
+        setTimeout(() => {
+            $('#modalID').modal(aksi);
+        }, 200);
+    }
+    // 
+    let formUse = () => {
+        let form = $('#form');
+        form.on({
             submit: () => {
+                if (form[0].checkValidity()) {
+                    CustomNotification('Tunggu Sebentar!', 'Sedang menyimpan data pengguna', 'fa fa-user', 'inverse');
+                    modalVisible('hide');
+                    setTimeout((e) => {
+                        simpanData();
+                    }, 1000);
+                }
                 return false;
             }
         });
-        setTimeout(() => {
-            $('#modalID').modal('show');
-        }, 200);
     }
-
+    // 
     let modalEdit = (data) => {
         inputType = 'edit';
+        user_id = data.user_id;
+        tagHtml = '';
+        // 
         tagHtml = modalData('Edit Pengguna', formTambah());
-        modalSet.append(tagHtml);
+        modalSet.html(tagHtml);
+        // 
         $('[name="user_nama"]').val(data.user_nama);
         $('[name="user_email"]').val(data.user_email);
         $('[name="user_phone"]').val(data.user_phone);
         $('[name="user_password"]').val('');
         $('[name="type_user_id"]').val(data.type_user_id);
-        $('#form').on({
-            submit: () => {
-                return false;
-            }
-        });
-        setTimeout(() => {
-            $('#modalID').modal('show');
-        }, 200);
+        // 
+        formUse();
+        // 
+        modalVisible();
     }
-
+    // 
     let editClick = async (user_id = '') => {
         try {
             const {
                 jasaprint
             } = await $.ajax({
-                url: url_2 + '/pengguna/getPengguna/',
+                url: `${url_2}/pengguna/getPengguna/`,
                 dataType: "JSON",
                 data: {
                     user_id,
@@ -232,13 +205,51 @@
                 type: "GET",
             });
             if (jasaprint.status == 'success') {
-                user_id = user_id;
                 modalEdit(jasaprint.data);
             }
         } catch (e) {
             console.log(e);
         }
     }
+    //
+    var simpanData = async () => {
+        // 
+        let form = $('#form');
+        var formData = new FormData(form[0]);
+        formData.append('user_id', user_id);
+        formData.append('type_input', inputType);
+        formData.append('simpan', $('[name="simpan"]').val());
+        // 
+        try {
+            const {
+                jasaprint
+            } = await $.ajax({
+                url: `${url_2}/pengguna/simpan/`,
+                data: formData,
+                type: "POST",
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+            });
+            _simpan(jasaprint);
+        } catch (e) {
+            console.log(e);
+        }
+    } 
+
+    var _simpan = ({
+        message,
+        status
+    }) => {
+        if (status === 'success') {
+            CustomNotification('Berhasil!', message, 'fa fa-check-circle', status);
+        } else {
+             CustomNotification('Gagal!', message, 'fa fa-times-circle', 'danger');
+        }
+        reloadData();
+    }
 </script>
-<!--  -->
-<script src="<?=base_url('assets/custom_js/modal.custom.js')?>"></script>	
+<!-- Custom JS -->
+<script src="<?=base_url('assets/custom_js/modal.custom.js')?>"></script>   
+<script src="<?=base_url('assets/custom_js/notification.custom.js')?>"></script>    
+<script src="<?=base_url('assets/custom_js/form.pengguna.custom.js')?>"></script>	

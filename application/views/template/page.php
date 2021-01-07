@@ -31,6 +31,8 @@
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/icon/font-awesome/css/font-awesome.min.css">
     <!-- ico font -->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/icon/icofont/css/icofont.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/animate.css/css/animate.css">
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/jquery.mCustomScrollbar.css">
