@@ -8,6 +8,7 @@ class Pengguna extends CI_Controller {
 		parent::__construct();
 		$this->shiro_lib->cekLogin();
 		$this->load->model('user_model', 'us');
+		$this->load->model('semua_bisa_model', 'sb');
 	}
 
 	public function index($type_user_id = 0)
@@ -45,6 +46,11 @@ class Pengguna extends CI_Controller {
 		$data['subtitle'] = 'Master Data ' . $userType;
 		$data['type_user_nama'] = $userType;
 		$data['type_user_id'] = $type_user_id;
+		$data['jumlah'] = [
+			'total_pengguna' => $this->us->jumlah_pengguna(0),
+			'total_admin' => $this->us->jumlah_pengguna(1),
+			'total_konsumen' => $this->us->jumlah_pengguna(2),
+		];
 		$this->shiro_lib->admin('master/pengguna/vPengguna', $data);
 	}
 
@@ -52,6 +58,25 @@ class Pengguna extends CI_Controller {
 	{
 		$data = $this->us->getDataTables();
 		echo json_encode($data);
+	}
+
+	public function getPengguna()
+	{
+		$input['user_id'] = $this->input->get('user_id');
+		$q = $this->sb->mengambil('tb_user', $input);
+		$ada = false;
+		$output = '';
+		if ($q->num_rows() > 0) {
+			$ada = true;
+			$output = $q->row();
+			$output->user_password = '';
+		}
+		echo json_encode([
+			'jasaprint' => [
+				'status' => $ada ? 'success' : 'error',
+				'data' => $output,
+			]
+		]);
 	}
 }
 
