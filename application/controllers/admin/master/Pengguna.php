@@ -46,11 +46,6 @@ class Pengguna extends CI_Controller {
 		$data['subtitle'] = 'Master Data ' . $userType;
 		$data['type_user_nama'] = $userType;
 		$data['type_user_id'] = $type_user_id;
-		$data['jumlah'] = [
-			'total_pengguna' => $this->us->jumlah_pengguna(0),
-			'total_admin' => $this->us->jumlah_pengguna(1),
-			'total_konsumen' => $this->us->jumlah_pengguna(2),
-		];
 		$this->shiro_lib->admin('master/pengguna/vPengguna', $data);
 	}
 
@@ -168,14 +163,128 @@ class Pengguna extends CI_Controller {
 					$message = 'menambah data pengguna';
 				}
 			}
-		} else {
-			
-		}
+		} 
 
 		return [
 			'error' => $error,
 			'message' => $message,
 		];
+	}
+
+	public function hapusData() 
+	{
+		$error = true;
+		$message = '';
+		// 
+		if (!empty($this->input->post('time'))) {
+			// 
+			if (!empty($this->input->post('user_id'))) {
+				// 
+				$user_id = $this->input->post('user_id');
+				// 
+				$cek = $this->sb->mengambil('tb_user', [
+					'user_id' => $user_id,
+				]);
+				// 
+				if ($user_id == $this->session->admin->user_id) {
+					$message = 'Tidak bisa menghapus akun yang sedang dipakai!';
+				} else if ($cek->num_rows() > 0) {
+					$response = $this->sb->menghapus('tb_user', [
+						'user_id' => $user_id,
+					]);
+
+					if ($response['status'] == 'success') {
+						$error = false;
+						$message = 'menghapus data pengguna';
+					} else {
+						$message = 'menghapus data pengguna';
+					}
+				} else {
+					$message = 'Pengguna yang akan dihapus tidak ditemukan!';
+				}
+			} else {
+				$message = 'ID Pengguna tidak boleh kosong!';
+			}
+		} else {
+			$message = 'harap periksa kembali data yang dikirimkan!';
+		}
+
+		echo json_encode([
+			'jasaprint' => [
+				'status' => $error ? 'error' : 'success',
+				'message' => $message,
+			]
+		]);
+	}
+
+	public function statusChange() 
+	{
+		$error = true;
+		$message = '';
+		// 
+		if (!empty($this->input->post('time'))) {
+			// 
+			if (!empty($this->input->post('user_id'))) {
+				// 
+				$user_id = $this->input->post('user_id');
+				$status_user_id = $this->input->post('status_user_id') ?? 2;
+				$status_user_name = 'mengsuspend';
+				if ($status_user_id == 1) {
+					$status_user_name = 'mengaktifkan';
+				}
+				// 
+				$cek = $this->sb->mengambil('tb_user', [
+					'user_id' => $user_id,
+				]);
+				// 
+				if ($user_id == $this->session->admin->user_id) {
+					$message = 'Tidak bisa mengubah status akun yang sedang dipakai!';
+				} else if ($cek->num_rows() > 0) {
+					$response = $this->sb->mengubah('tb_user', [
+						'user_id' => $user_id,
+					], [
+						'status_user_id' => $status_user_id,
+					]);
+					
+					if ($response['status'] == 'success') {
+						$error = false;
+						$message = $status_user_name . ' data pengguna';
+					} else {
+						$message = $status_user_name . ' data pengguna';
+					}
+				} else {
+					$message = 'Pengguna tidak ditemukan!';
+				}
+			} else {
+				$message = 'ID Pengguna tidak boleh kosong!';
+			}
+		} else {
+			$message = 'harap periksa kembali data yang dikirimkan!';
+		}
+
+		echo json_encode([
+			'jasaprint' => [
+				'status' => $error ? 'error' : 'success',
+				'message' => $message,
+			]
+		]);
+	}
+
+
+	public function getJumlahPengguna()
+	{
+		$data['jumlah'] = [
+			'total_pengguna' => number_format($this->us->jumlah_pengguna(0)),
+			'total_admin' => number_format($this->us->jumlah_pengguna(1)),
+			'total_konsumen' => number_format($this->us->jumlah_pengguna(2)),
+		];
+
+		echo json_encode([
+			'jasaprint' => [
+				'status' =>'success',
+				'data' => $data['jumlah'],
+			]
+		]);
 	}
 }
 

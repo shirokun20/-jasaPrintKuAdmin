@@ -85,15 +85,17 @@ class User_model extends CI_Model {
 		$button = '<div class="dropdown-primary dropdown open">';
         $button .= '<button class="btn btn-primary dropdown-toggle waves-effect waves-light" type="button" id="dropdown-'.$data->user_id.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Aksi</button>';
         $button .= '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-'.$data->user_id.'" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">';
-        $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)">Detail</a>';
+     //    if ($data->type_user_id == 2) {
+     //    $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)">Detail</a>';
+    	// }
         $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="editClick('."'".$data->user_id."'".')">Edit</a>';
         $button .= '<div class="dropdown-divider"></div>';
         if ($data->status_user_id == 1) {
-        	$button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="ubahStatus('."'".$data->user_id."', 2".')">Suspend</a>';
+        	$button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="ubahStatusConfirm('."'".$data->user_id."', 2".')">Suspend</a>';
         } else {
-        	$button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="ubahStatus('."'".$data->user_id."', 1".')">Aktifkan</a>';
+        	$button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="ubahStatusConfirm('."'".$data->user_id."', 1".')">Aktifkan</a>';
         }
-        $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)">Hapus</a>';
+        $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="hapusDataConfirm('."'". $data->user_id ."'".')">Hapus</a>';
         $button .= '</div>';
         $button .='</div>';
         return $button;
