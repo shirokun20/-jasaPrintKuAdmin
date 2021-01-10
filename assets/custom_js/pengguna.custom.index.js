@@ -266,3 +266,73 @@
             console.log(e);
         }
     }
+    // 
+    let detailPengguna = async (user_id) => {
+        try {
+            const {
+                jasaprint
+            } = await $.ajax({
+                url: `${url_2}/pengguna/getDetail/`,
+                dataType: "JSON",
+                data: {
+                    user_id,
+                },
+                type: "GET",
+            });
+            if (jasaprint.status == 'success') {
+                _detailPengguna(jasaprint);
+                tagHtml = '';
+            } else {
+                CustomNotification('Gagal!', 'Pengguna tidak ditemukan!', 'fa fa-times-circle', 'danger');
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    // 
+    let _detailPengguna = ({
+        data,
+        jumlah_order,
+    }) => {
+        var obj = "";
+            obj += '<table class="table" style="width: 100%">';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">#ID</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.user_id}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">Nama</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.user_nama}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">Email</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.user_email}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">No Hp.</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.user_phone}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">Jenis Pengguna</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.type_user_nama}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">Status</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${data.status_user_nama}</td>`;
+                obj += '</tr>';
+                obj += '<tr>';
+                    obj += '<td style="font-weight: bold">Jumlah Order di aplikasi ini</td>';
+                    obj += '<td>:</td>';
+                    obj += `<td class="text-right">${jumlah_order}</td>`;
+                obj += '</tr>';
+            obj += '</table>';
+        tagHtml = modalData('Detail Konsumen', obj);
+        modalSet.html(tagHtml);
+        modalVisible();
+    }

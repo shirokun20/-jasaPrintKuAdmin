@@ -28,14 +28,14 @@ class User_model extends CI_Model {
 	// Urukan
 	private $orderBy 		= ['u.user_id' => 'DESC'];
 	// Select field
-	private function _setSelect()
+	public function _setSelect()
 	{
 		$this->db->select('u.*');
 		$this->db->select('t.type_user_nama');
 		$this->db->select('s.status_user_nama');
 	}
 	// Relasi
-	private function _setJoin()
+	public function _setJoin()
 	{
 		$this->db->join($this->table_type, 't.type_user_id = u.type_user_id');
 		$this->db->join($this->table_status, 's.status_user_id = u.status_user_id');
@@ -85,9 +85,11 @@ class User_model extends CI_Model {
 		$button = '<div class="dropdown-primary dropdown open">';
         $button .= '<button class="btn btn-primary dropdown-toggle waves-effect waves-light" type="button" id="dropdown-'.$data->user_id.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Aksi</button>';
         $button .= '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-'.$data->user_id.'" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">';
-     //    if ($data->type_user_id == 2) {
-     //    $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)">Detail</a>';
-    	// }
+        if ($data->type_user_id == 2) {
+    	// 
+    	$button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="detailPengguna('."'".$data->user_id."'".')">Detail</a>';
+    	// 
+    	}
         $button .= '<a class="dropdown-item waves-light waves-effect" href="javascript:void(0)" onclick="editClick('."'".$data->user_id."'".')">Edit</a>';
         $button .= '<div class="dropdown-divider"></div>';
         if ($data->status_user_id == 1) {

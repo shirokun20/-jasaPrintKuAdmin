@@ -53,7 +53,7 @@
             </div>
         </div>
         <b style="display: none;" id="type_user_id"><?=$type_user_id?></b>
-        <div class="card-block table-border-style">
+        <div class="card-block">
             <div class="table-responsive">
                 <table class="table table-hover" id="tb_pengguna" width="100%">
                     <thead>

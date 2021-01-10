@@ -77,6 +77,40 @@ class Pengguna extends CI_Controller {
 		]);
 	}
 
+	private function _getDetail($input) 
+	{
+		$this->us->_setJoin();
+		return $this->sb->mengambil('tb_user u', $input);
+	}
+
+	public function getDetail()
+	{
+		$input['user_id'] = $this->input->get('user_id');
+		$ada = false;
+		$output = '';
+		$jumlah_order = 0;
+		if ($input['user_id'] !== '') {
+			$q = $this->_getDetail([
+				'u.user_id' => $input['user_id'],
+			]);
+
+			if ($q->num_rows() > 0) {
+				$jumlah_order = $this->sb->mengambil('tb_transaction', $input)->num_rows();
+				$ada = true;
+				$output = $q->row();
+				$output->user_password = '';
+			}
+		} 
+
+		echo json_encode([
+			'jasaprint' => [
+				'status' => $ada ? 'success' : 'error',
+				'data' => $output,
+				'jumlah_order' => number_format($jumlah_order),
+			]
+		]);
+	}
+
 	public function simpan()
 	{
 		$error = true;
