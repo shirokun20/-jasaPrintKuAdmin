@@ -4,7 +4,7 @@
             <div class="card bg-c-red total-card">
                 <div class="card-block">
                     <div class="text-left">
-                        <h4 id="total_pengguna">0</h4>
+                        <h4 id="total_pesanan_aktif">0</h4>
                         <p class="m-0"><i class="fa fa-archive"></i> Pesanan Aktif</p>
                     </div>
                 </div>
@@ -14,7 +14,7 @@
              <div class="card bg-c-blue total-card">
                 <div class="card-block">
                     <div class="text-left">
-                        <h4 id="total_admin">0</h4>
+                        <h4 id="total_pesanan_selesai">0</h4>
                         <p class="m-0"><i class="fa fa-check-square-o"></i> Pesanan Selesai</p>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
              <div class="card bg-c-green total-card">
                 <div class="card-block">
                     <div class="text-left">
-                        <h4 id="total_konsumen">0</h4>
+                        <h4 id="total_pesanan_dibatalkan">0</h4>
                         <p class="m-0"><i class="fa fa-times-rectangle-o"></i> Pesanan Dibatalkan</p>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                     	<i class="fa fa fa-wrench open-card-option"></i>
                     </li>
                     <li>
-                    	<a href="javascript:void(0)" onclick="modalTambah()">
-                    		<i class="fa fa-plus" data-toggle="tooltip" title="Tambah Pengguna"></i>
+                    	<a href="<?=site_url('admin/transaksi/pemesanan/tambah/')?>">
+                    		<i class="fa fa-plus" data-toggle="tooltip" title="Tambah Pesanan Baru"></i>
                     	</a>
                     </li>
                     <li>
@@ -53,54 +53,11 @@
             </div>
         </div>
         <div class="card-block">
-        	<h4>
-        		Pencarian
-        	</h4>
-        	<hr>
-        	<div class="row" style="margin-bottom: 10px;">
-        		<div class="col-12 col-lg-6 form-material">
-					<div class="form-group form-default">
-	                    <input type="text" name="footer-email" class="form-control">
-	                    <span class="form-bar"></span>
-	                    <label class="float-label">Cari Invoice, Konsumen atau total bayar...</label>
-	                </div>
-        		</div>
-        		<div class="col-6 col-lg-3">
-        			<div class="form-group">
-					  <select class="form-control" name="status_transaction_id">
-					    <option>Pilih Status Pesanan</option>
-					  </select>
-					</div>
-        		</div>
-        		<div class="col-6 col-lg-3">
-        			<div class="form-group">
-					  <select class="form-control" name="status_payment_id">
-					    <option>Pilih Status Pembayaran</option>
-					  </select>
-					</div>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="col-4 col-lg-4 form-material">
-        			<div class="form-group form-default form-static-label">
-	                    <input type="date" name="tanggal_a" class="form-control">
-	                    <span class="form-bar"></span>
-	                    <label class="float-label">Tanggal</label>
-	                </div>
-        		</div>
-        		<div class="col-4 col-lg-4 text-center" style="padding-top: 7px">
-        			<h3>S/D</h3>
-        		</div>
-        		<div class="col-4 col-lg-4 form-material">
-        			<div class="form-group form-default form-static-label">
-	                    <input type="date" name="tanggal_a" class="form-control">
-	                    <span class="form-bar"></span>
-	                    <label class="float-label">Tanggal</label>
-	                </div>
-        		</div>
-        	</div>
+        	<?php  
+        		$this->shiro_lib->page('admin/transaksi/pemesanan/vPemesananSearch');
+        	?>
             <div class="table-responsive">
-                <table class="table table-hover" id="tb_pengguna" width="100%">
+                <table class="table table-hover" id="tb_pemesanan" width="100%">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -118,3 +75,11 @@
         </div>
     </div>
 </div>
+<!--  -->
+<link rel="stylesheet" href="<?=base_url('assets/js/datatables/css/dataTables.bootstrap4.min.css')?>">
+<!--  -->
+<script src="<?=base_url('assets/js/datatables/js/jquery.dataTables.min.js')?>"></script>
+<!--  -->
+<script src="<?=base_url('assets/js/datatables/js/dataTables.bootstrap4.min.js')?>"></script>
+<!--  -->
+<script type="text/javascript" src="<?=base_url('assets/custom_js/pemesanan.custom.index.js')?>"></script>

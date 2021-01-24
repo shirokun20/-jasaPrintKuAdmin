@@ -83,7 +83,7 @@ class User_model extends CI_Model {
 	private function _buttonUser($data) 
 	{
 		$button = '<div class="dropdown-primary dropdown open">';
-        $button .= '<button class="btn btn-primary dropdown-toggle waves-effect waves-light" type="button" id="dropdown-'.$data->user_id.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Aksi</button>';
+        $button .= '<button class="btn btn-primary btn-sm dropdown-toggle waves-effect waves-light" type="button" id="dropdown-'.$data->user_id.'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Aksi</button>';
         $button .= '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-'.$data->user_id.'" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">';
         if ($data->type_user_id == 2) {
     	// 

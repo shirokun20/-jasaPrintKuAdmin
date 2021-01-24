@@ -12,7 +12,7 @@
                         <a href="<?=$breadcrumb[$i]['tujuan']?>"><i class="fa <?=$breadcrumb[$i]['icon']?>"></i> </a>
                     </li>
                     <?php else: ?>
-                    <li class="breadcrumb-item"><a href="javasript:void(0)"><?=$breadcrumb[$i]['title']?></a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)"><?=$breadcrumb[$i]['title']?></a></li>
                     <?php endif ?>
                 <?php } ?>
             </ul>

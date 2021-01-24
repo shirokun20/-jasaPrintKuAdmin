@@ -16,9 +16,7 @@
 	// ready function
 	$(() => {
 		datatablesAjax();
-        setTimeout((e) => {
-            getJumlahPengguna();
-        }, 2000);
+        setTimeout((e) => getJumlahPengguna(), 2000);
 	});
 	// functions
 	let datatablesAjax = () => {
@@ -30,7 +28,7 @@
             "order": [], 
      		// Ajax
             "ajax": {
-                "url": url_2+"/pengguna/showDataPengguna/",
+                "url": `${url_2}/pengguna/showDataPengguna/`,
                 "type": "POST",
                 "data": ( data ) => {
                 	data.type_user_id = type_user_id.text();
@@ -69,9 +67,7 @@
     }
     //
     let modalVisible = (aksi = 'show') => {
-        setTimeout(() => {
-            $('#modalID').modal(aksi);
-        }, 200);
+        setTimeout(() => $('#modalID').modal(aksi), 200);
     }
     // 
     let formUse = () => {
@@ -81,9 +77,7 @@
                 if (form[0].checkValidity()) {
                     CustomNotification('Tunggu Sebentar!', 'Sedang menyimpan data pengguna!', 'fa fa-user', 'inverse');
                     modalVisible('hide');
-                    setTimeout((e) => {
-                        simpanData();
-                    }, 1000);
+                    setTimeout((e) => simpanData(), 1000);
                 }
                 return false;
             }
@@ -181,9 +175,7 @@
     let hapusData = (usr_id) => {
         modalVisible('hide');
         CustomNotification('Tunggu Sebentar!', 'Sedang menghapus data pengguna!', 'fa fa-user', 'inverse');
-        setTimeout((e) => {
-            _hapusData(usr_id);
-        }, 2000);
+        setTimeout((e) => _hapusData(usr_id), 2000);
     }
     // 
     let _hapusData = async (usr_id) => {
@@ -221,9 +213,7 @@
     let ubahStatus = (usr_id, status_user_id) => {
         modalVisible('hide');
         CustomNotification('Tunggu Sebentar!', `Sedang ${status_user_id == 1 ? 'mengaktifkan' : 'mengsuspend'} data pengguna!`, 'fa fa-user', 'inverse');
-        setTimeout((e) => {
-            _ubahStatus(usr_id, status_user_id);
-        }, 2000);
+        setTimeout((e) => _ubahStatus(usr_id, status_user_id), 2000);
     }
     // 
     let _ubahStatus = async (usr_id, status_user_id) => {
