@@ -78,7 +78,7 @@
         </div>
         <div class="col-lg-12 col-12 mt-3 form-material">
             <div class="form-group form-default form-static-label">
-                <textarea class="form-control" placeholder="Isi keterangan"></textarea>
+                <textarea class="form-control" name="detailFileKeterangan" placeholder="Isi keterangan"></textarea>
                 <span class="form-bar"></span>
                 <label class="float-label">Keterangan</label>
             </div>
@@ -86,7 +86,7 @@
 	</div>
     <div class="row">
         <div class="col-6">
-            <input type="submit" name="btnSimpanSementara" value="Masuk ke Pemesanan!" class="btn btn-danger" disabled>
+            <input type="submit" name="btnSimpanSementara" value="Masuk ke Pemesanan!" class="btn btn-danger">
         </div>
         <div class="col-6 text-right">
             Total Biaya print (<span class="ths" style="font-weight: bold;">0</span> x <span class="hps" style="font-weight: bold;">0</span>) <span class="tbps" style="font-weight: bold;">Rp. 0</span>
